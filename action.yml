@@ -1,0 +1,59 @@
+name: 'Core Web Vitals Check: Bulk PageSpeed Insights'
+description: 'Fail the build when real visitors fail Core Web Vitals (LCP, INP, CLS) or the PageSpeed score drops. Reads sitemaps.'
+author: 'Nero Labs'
+branding:
+  icon: 'zap'
+  color: 'green'
+inputs:
+  urls:
+    description: 'Pages to test, one per line or comma separated. A bare domain like example.com is fine. Use this, sitemap, or both.'
+    required: false
+    default: ''
+  sitemap:
+    description: 'URL of a sitemap.xml (or sitemap index, .xml.gz works) to read pages from, first max-urls pages in file order.'
+    required: false
+    default: ''
+  max-urls:
+    description: 'Most pages to test in one run (1 to 100). Default 25.'
+    required: false
+    default: '25'
+  google-api-key:
+    description: 'Your free Google API key with the PageSpeed Insights API on, from a repository secret. Google refuses calls without a key. Either this or apify-token is needed.'
+    required: false
+    default: ''
+  apify-token:
+    description: 'Instead of a Google key: an Apify API token, from a secret. Runs nerolabs/bulk-pagespeed-checker on your Apify account (it has its own Google key; billed per page tested).'
+    required: false
+    default: ''
+  strategy:
+    description: '"mobile" (default, what Google ranks on), "desktop" or "both" (two tests per page).'
+    required: false
+    default: 'mobile'
+  fail-on:
+    description: 'When to fail the step. "any" (default) = real-visitor Core Web Vitals fail OR performance score under min-score. "cwv" = only Core Web Vitals. "score" = only the score. "none" = report only.'
+    required: false
+    default: 'any'
+  min-score:
+    description: 'Lowest Lighthouse performance score (0 to 100) that passes when fail-on includes score. Default 50.'
+    required: false
+    default: '50'
+  timeout-seconds:
+    description: 'Per page timeout in seconds (20 to 180). Google takes 10 to 40 s per page.'
+    required: false
+    default: '90'
+outputs:
+  result:
+    description: '"pass", "fail" or "error" (nothing could be tested).'
+  failing-count:
+    description: 'How many page tests failed the rules.'
+  failing-urls:
+    description: 'Comma separated URLs that failed.'
+  average-score:
+    description: 'Average Lighthouse performance score of the pages tested.'
+  cwv-fail-count:
+    description: 'How many page tests fail Core Web Vitals for real visitors.'
+  report:
+    description: 'Full JSON report: per page and device the score, real-visitor Core Web Vitals verdict and LCP, INP, CLS, lab LCP and TBT, biggest fix and why it failed.'
+runs:
+  using: 'node24'
+  main: 'dist/index.js'

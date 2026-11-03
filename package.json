@@ -1,0 +1,14 @@
+{
+  "name": "core-web-vitals-check",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GitHub Action and CLI: fail the build when real visitors fail Core Web Vitals (LCP, INP, CLS) or the PageSpeed Insights score drops, for a list of pages or a whole sitemap.",
+  "license": "MIT",
+  "scripts": {
+    "build": "esbuild src/main.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/index.js --legal-comments=none",
+    "test": "node test/run-tests.cjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
