@@ -21,7 +21,7 @@ assert.strictEqual(actorRows[0].score, 77);
 assert.strictEqual(actorRows[0].topFix, 'Reduce unused JavaScript (Est savings of 120 KiB)');
 console.log('pure checks passed');
 
-const env = { ...process.env, CWV_CHECK_NO_MAIN: '', GOOGLE_API_KEY: 'test-key', APIFY_TOKEN: '' };
+const env = { ...process.env, GITHUB_ACTIONS: '', GITHUB_OUTPUT: '', GITHUB_STEP_SUMMARY: '', CWV_CHECK_NO_MAIN: '', GOOGLE_API_KEY: 'test-key', APIFY_TOKEN: '' };
 let out;
 try {
   out = execFileSync('node', ['-r', path.join(__dirname, 'mock-fetch.cjs'), path.join(__dirname, '../dist/index.js'), '--sitemap', 'https://site.test/sitemap.xml', '--fail-on', 'none'], { env, encoding: 'utf8' });
